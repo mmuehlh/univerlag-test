@@ -1,0 +1,15 @@
+## global dspace configuration file
+
+dspace/config/dspace.cfg
+
+
+## Ignore the MVN compiled output dirs
+
+target/
+
+## Ignore project files created by IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+*.idea/
+overlays/
