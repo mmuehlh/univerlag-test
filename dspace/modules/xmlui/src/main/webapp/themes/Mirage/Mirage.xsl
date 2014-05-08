@@ -42,5 +42,41 @@
     <xsl:import href="lib/xsl/aspect/artifactbrowser/collection-list.xsl"/>
     <xsl:output indent="yes"/>
     
+    
+    <!-- customized templates -->
+    
+    
+    <!-- Show always context browsing menu only and a link to the regular publishing program.
+    Appand link to collection with not regular publications as last option -->
+	<xsl:template match="dri:options/dri:list/dri:list" priority="3" mode="nested">
+                <li>
+                        <xsl:if test="not(starts-with(./@id, 'aspect.browseArtifacts.Navigation'))">
+                                <xsl:apply-templates select="dri:head" mode="nested"/>
+                        </xsl:if>
+                        <ul class="ds-simple-list sublist">
+                                <xsl:if test="//dri:list[@id='aspect.browseArtifacts.Navigation.list.context'][count(child::*) &gt; 0] and contains(./@id, 'browseArtifacts.Navigation')">
+                                        <li class="ds-simple-list-item"><a href="{$context-path}/{$home-collection}"><i18n:text>xmlui.ArtifactBrowser.Navigation.home.collection</i18n:text></a></li>
+                                </xsl:if>
+                                <xsl:apply-templates select="dri:item" mode="nested"/>
+                                <xsl:if test="//dri:list[@id='aspect.browseArtifacts.Navigation.list.context'][count(child::*) &gt; 0] and contains(./@id, 'browseArtifacts.Navigation')">
+                                        <li class="ds-simple-list-item"><a href="{$context-path}/{$special-collection}"><i18n:text>xmlui.ArtifactBrowser.Navigation.special.collection</i18n:text></a></li>
+                                </xsl:if>
+                        </ul>
+                </li>
+        </xsl:template>
 
+        <xsl:template match="dri:options/dri:list/dri:list[@id='aspect.browseArtifacts.Navigation.list.global']" priority="3" mode="nested">
+                <xsl:choose>
+                        <xsl:when test="//dri:list[@id='aspect.browseArtifacts.Navigation.list.context'][count(child::*) &gt; 0]">
+                        </xsl:when>
+                        <xsl:otherwise>
+                               <li>
+
+                                        <ul class="ds-simple-list sublist">
+                                                <xsl:apply-templates select="dri:item" mode="nested"/>
+                                        </ul>
+                                </li>
+                        </xsl:otherwise>
+                </xsl:choose>
+        </xsl:template>
 </xsl:stylesheet>

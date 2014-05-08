@@ -128,7 +128,48 @@
 
                 </xsl:if>
                 <!-- Once the search box is built, the other parts of the options are added -->
-		<!-- Show Browse menu first, then static info pages, then the other options -->
+                
+				<!-- Show Browse menu first, then static info pages, then the other options -->
+				<!-- Browse menu: Do not show communities & collections on the homepage. 
+				Take the collection with regular program as starting point and appand the collection with other publications as last option  -->
+                    <xsl:choose>
+                        <xsl:when test="string-length(//dri:pageMeta/dri:metadata[@element='request'][@qualifier='URI']) = 0">
+                                <h1 class="ds-option-set-head"><i18n:text>xmlui.ArtifactBrowser.CommunityViewer.head_browse</i18n:text></h1>
+                                <div class="ds-option-set" id="aspect_viewArtifacts_Navigation_list_browse">
+                                        <ul class="ds-options-list">
+                                                <li>
+                                                        <ul class="ds-simple-list sublist">
+                                                                <li>
+                                                                        <a href="{$context-path}/{$home-collection}"><i18n:text>xmlui.ArtifactBrowser.Navigation.home.collection</i18n:text></a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="{$context-path}/{$home-collection}/browse?type=dateissued"><i18n:text>xmlui.ArtifactBrowser.Navigation.browse_dateissued</i18n:text></a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="{$context-path}/{$home-collection}/browse?type=author"><i18n:text>xmlui.ArtifactBrowser.Navigation.browse_author</i18n:text></a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="{$context-path}/{$home-collection}/browse?type=title"><i18n:text>xmlui.ArtifactBrowser.Navigation.browse_title</i18n:text></a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="{$context-path}/{$home-collection}/browse?type=series"><i18n:text>xmlui.ArtifactBrowser.Navigation.browse_series</i18n:text></a>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                                <li>
+                                                        <ul class="ds-simple-list sublist">
+                                                                <li class="ds-simple-list-item">
+                                                                        <a href="{$context-path}/{$special-collection}"><i18n:text>xmlui.ArtifactBrowser.Navigation.special.collection</i18n:text></a>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                        </ul>
+                                </div>
+                    </xsl:when>
+                    <xsl:otherwise>
+                            <xsl:apply-templates select="dri:list[@n='browse']"/>
+                    </xsl:otherwise>
+
                 <h1 class="ds-option-set-head"><i18n:text>xmlui.static.navigation.informations</i18n:text></h1>
                 <div class="ds-option-set" id="infonav">
                         <ul class="ds-option-list">
